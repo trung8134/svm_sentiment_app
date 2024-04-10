@@ -1,6 +1,6 @@
 import streamlit as st
 import joblib
-# from underthesea import word_tokenize
+from underthesea import word_tokenize
 import spacy
 import string
 
@@ -26,14 +26,14 @@ tfidf = load_vectorizer()
 lsa = load_lsa() 
 
 def pre_process(text):
-  nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
   # lower()
   text = text.lower()
-  doc = nlp(text)
-  # tokens
+  # token
+  tokens = word_tokenize(text)
   # check punct
-  tokens = [token.text for token in doc if token.text not in string.punctuation]
-  return ' '.join(tokens)
+  text = [token for token in tokens if not token in string.punctuation]
+
+  return ' '.join(text)
 
 
 def processed_input(text):
